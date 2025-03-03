@@ -3,16 +3,14 @@
 ![jetpack-compose-permission-banner.png](jetpack-compose-permission-banner.png)
 
 A lightweight Android library that simplifies runtime permission management in Jetpack Compose
-applications. This library provides a composable API to request, check, and handle app permissions
+applications. This library provides a composable API to request, check, and handle App permissions
 with ease. It supports custom rationale and settings dialogs, manifest permission validation, and
 lifecycle-aware permission flows.
 
 ![Jetpack Compose](https://img.shields.io/badge/jetpack-compose-%237F52FF.svg?style=for-the-badge&logo=jetpack-compose&logoColor=white)
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white) ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.meticha/permissions_compose)](https://central.sonatype.com/artifact/com.meticha/permissions_compose)
-
-![Static Badge](https://img.shields.io/badge/minSdk-21-blue?link=https%3A%2F%2Fgithub.com%2Fmeticha%2Fpermissions-compose%2Fblob%2Fmain%2Fpermissions-compose%2Fbuild.gradle.kts%23L13)
+[![Maven Central](https://img.shields.io/maven-central/v/com.meticha/permissions_compose)](https://central.sonatype.com/artifact/com.meticha/permissions_compose) ![Static Badge](https://img.shields.io/badge/minSdk-21-blue?link=https%3A%2F%2Fgithub.com%2Fmeticha%2Fpermissions-compose%2Fblob%2Fmain%2Fpermissions-compose%2Fbuild.gradle.kts%23L13)
 
 ## Features
 
@@ -26,12 +24,12 @@ lifecycle-aware permission flows.
 
 ## Installation
 
-You can follow the implementation approach used in the app module. Alternatively, you can find a
+You can follow the implementation approach used in the App module. Alternatively, you can find a
 detailed explanation below.
 
 ### Dependencies
 
-The library is now available on MavenCentral!!! Add the dependencies to your libs.versions.toml
+The library is now available on MavenCentral!!! Add the dependencies to your `libs.versions.toml`
 
 ```
 [versions]
@@ -44,7 +42,7 @@ permissions-compose = { group = "com.meticha", name = "permissions_compose", ver
 
 ```
 
-In your build.gradle.kts implement your dependencies:
+In your `build.gradle.kts` implement this dependency:
 
 ```
 ...
@@ -53,7 +51,17 @@ dependencies {
  implementation(libs.permissions.compose)
 ```
 
-## Usage
+## Usage:
+
+### 0. Add Permissions inside your `AndroidManifest.xml`
+
+Open `AndroidManifest.xml` file and add the permissions that you want to request:
+
+```xml
+...
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+...
+```
 
 ### 1. (OPTIONAL) Setup in MainActivity
 
@@ -82,10 +90,10 @@ class MainActivity : ComponentActivity() {
 }
 ```
 
-### 2. Implement a Permission Screen
+### 2. Implement Permissions from which you want to request
 
 Use the `rememberAppPermissionState` composable to manage your permissions within a Jetpack Compose
-screen.
+screen. Here's a demo implementation of a screen. 
 
 ```kotlin
 @Composable
@@ -137,7 +145,7 @@ fun PermissionScreen() {
 }
 ```
 
-## How It Works
+## How It Works:
 
 ### PermissionState
 
