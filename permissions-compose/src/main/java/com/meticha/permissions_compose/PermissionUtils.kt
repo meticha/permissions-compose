@@ -20,7 +20,7 @@ internal fun checkPermissionAddedInManifest(permission: AppPermission, context: 
 }
 
 
-class PermissionNotAddedException(val permission: String) : Exception() {
-    override val message: String?
+class PermissionNotAddedException(private val permission: String) : Exception() {
+    override val message: String
         get() = "You forgot to add $permission permission in the manifest"
 }
