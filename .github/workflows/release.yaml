@@ -15,6 +15,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.TOKEN }}
+          persist-credentials: true
 
       - name: Setup gradle.properties
         run: |
