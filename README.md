@@ -10,7 +10,8 @@ lifecycle-aware permission flows.
 ![Static Badge](https://img.shields.io/badge/minSdk-21-blue?link=https%3A%2F%2Fgithub.com%2Fmeticha%2Fpermissions-compose%2Fblob%2Fmain%2Fpermissions-compose%2Fbuild.gradle.kts%23L13)
 
 
-- Features
+## Features
+
 - **Composable Permission State**: Easily manage permissions with a stateful, composable API.
 - **Manifest Check**: Automatically verifies that all required permissions are declared in your
   app’s manifest.
@@ -50,7 +51,7 @@ dependencies {
 
 ## Usage
 
-### 1.(OPTIONAL) Setup in MainActivity
+### 1. (OPTIONAL) Setup in MainActivity
 
 Set for configuring the custom UI for permission rationales (if desired)
 
@@ -77,9 +78,9 @@ class MainActivity : ComponentActivity() {
 }
 ```
 
-### 2.Implement a Permission Screen
+### 2. Implement a Permission Screen
 
-Use the rememberAppPermissionState composable to manage your permissions within a Jetpack Compose
+Use the `rememberAppPermissionState` composable to manage your permissions within a Jetpack Compose
 screen.
 
 ```kotlin
