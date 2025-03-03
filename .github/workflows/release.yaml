@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  VERSION_NAME: 0.0.1+1  # Update this value for each release
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -13,19 +16,24 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up JDK 11
+      - name: Setup gradle.properties
+        run: |
+          # Create a minimal gradle.properties with only necessary properties for CI
+          echo "android.useAndroidX=true" > gradle.properties
+          echo "VERSION_NAME=${{ env.VERSION_NAME }}" >> gradle.properties
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
       - name: Build Compose Permissions Library
-        run: ./gradlew :permissions-compose:assembleRelease
+        run: ./gradlew :permissions-compose:assembleRelease -Dandroid.useAndroidX=true
 
       - name: Extract Version
         id: get_version
         run: |
-          # Extract version from gradle.properties (e.g., VERSION_NAME=0.0.1+1)
           VERSION=$(grep "^VERSION_NAME=" gradle.properties | cut -d '=' -f2)
           echo "Version found: $VERSION"
           echo "version=$VERSION" >> $GITHUB_ENV
@@ -34,7 +42,7 @@ jobs:
       - name: Generate Changelog
         id: generate_changelog
         run: |
-          # Get the previous tag. If none exists, use the first commit.
+          # Get the previous tag; if none exists, use the initial commit.
           PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           if [ -z "$PREV_TAG" ]; then
             echo "No previous tag found, using initial commit."
