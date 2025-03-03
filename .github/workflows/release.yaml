@@ -20,7 +20,7 @@ jobs:
           java-version: '17'
 
       - name: Build Compose Permissions Library
-        run: ./gradlew :compose_permissions:assembleRelease
+        run: ./gradlew :permissions-compose:assembleRelease
 
       - name: Extract Version
         id: get_version
@@ -73,6 +73,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: compose_permissions/build/outputs/aar/compose-permissions-${{ env.version }}-release.aar
-          asset_name: compose-permissions-${{ env.version }}.aar
+          asset_path: permissions-compose/build/outputs/aar/compose-permissions-${{ env.version }}-release.aar
+          asset_name: permissions-compose-${{ env.version }}.aar
           asset_content_type: application/octet-stream
