@@ -182,6 +182,8 @@ PermissionManagerConfig.setCustomRationaleUI { permission, onDismiss, onConfirm 
 Similarly, custom settings dialogs can be implemented if needed. This flexibility allows you to
 tailor the user experience to match your app's design guidelines.
 
+![permissions.gif](permissions.gif)
+
 # Contributing
 
 Contributions are welcome! If you have suggestions, improvements, or bug fixes, please open an issue
