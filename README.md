@@ -7,7 +7,7 @@ lifecycle-aware permission flows.
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.meticha/permissions_compose)](https://central.sonatype.com/artifact/com.meticha/permissions_compose)
 
-![Static Badge](https://img.shields.io/badge/minSdk-21-blue?link=![Static Badge](https://img.shields.io/badge/minSdk-21-blue?link=https%3A%2F%2Fgithub.com%2Fmeticha%2Fpermissions-compose%2Fblob%2Fmain%2Fpermissions-compose%2Fbuild.gradle.kts%23L13)
+![Static Badge](https://img.shields.io/badge/minSdk-21-blue?link=https%3A%2F%2Fgithub.com%2Fmeticha%2Fpermissions-compose%2Fblob%2Fmain%2Fpermissions-compose%2Fbuild.gradle.kts%23L13)
 
 
 - Features
