@@ -1,14 +1,18 @@
 ## Compose Permission Manager
 
+![jetpack-compose-permission-banner.png](jetpack-compose-permission-banner.png)
+
 A lightweight Android library that simplifies runtime permission management in Jetpack Compose
 applications. This library provides a composable API to request, check, and handle app permissions
 with ease. It supports custom rationale and settings dialogs, manifest permission validation, and
 lifecycle-aware permission flows.
 
+![Jetpack Compose](https://img.shields.io/badge/jetpack-compose-%237F52FF.svg?style=for-the-badge&logo=jetpack-compose&logoColor=white)
+![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white) ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+
 [![Maven Central](https://img.shields.io/maven-central/v/com.meticha/permissions_compose)](https://central.sonatype.com/artifact/com.meticha/permissions_compose)
 
 ![Static Badge](https://img.shields.io/badge/minSdk-21-blue?link=https%3A%2F%2Fgithub.com%2Fmeticha%2Fpermissions-compose%2Fblob%2Fmain%2Fpermissions-compose%2Fbuild.gradle.kts%23L13)
-
 
 ## Features
 
