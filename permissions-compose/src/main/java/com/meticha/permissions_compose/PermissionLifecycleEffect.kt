@@ -1,13 +1,12 @@
 package com.meticha.permissions_compose
 
-
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.example.demoapplication.permissionmanager.PermissionState
 
 
 /**
@@ -35,5 +34,4 @@ fun PermissionLifeCycleCheckEffect(
             lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
-
 }

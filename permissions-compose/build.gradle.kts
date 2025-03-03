@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     id("com.vanniktech.maven.publish") version "0.29.0"
 }
 
@@ -16,7 +17,6 @@ android {
     }
 
     buildTypes {
-
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -30,15 +30,19 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    buildFeatures {
+        compose = true
+    }
+
     kotlinOptions {
         jvmTarget = "11"
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.material3)
@@ -47,22 +51,3 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 }
 
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            afterEvaluate {
-                from(components["release"])
-                groupId = "com.meticha"
-                artifactId = "permissions_compose"
-                version = "0.0.1"
-                artifact("${layout.buildDirectory}/outputs/aar/${artifactId}-release.aar")
-            }
-        }
-    }
-}
-
-repositories {
-    maven {
-        name = "GitHubPackages"
-    }
-}
