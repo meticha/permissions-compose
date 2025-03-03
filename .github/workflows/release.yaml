@@ -1,0 +1,78 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '11'
+
+      - name: Build Compose Permissions Library
+        run: ./gradlew :compose_permissions:assembleRelease
+
+      - name: Extract Version
+        id: get_version
+        run: |
+          # Extract version from gradle.properties (e.g., VERSION_NAME=0.0.1+1)
+          VERSION=$(grep "^VERSION_NAME=" gradle.properties | cut -d '=' -f2)
+          echo "Version found: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Generate Changelog
+        id: generate_changelog
+        run: |
+          # Get the previous tag. If none exists, use the first commit.
+          PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$PREV_TAG" ]; then
+            echo "No previous tag found, using initial commit."
+            PREV_TAG=$(git rev-list --max-parents=0 HEAD)
+          fi
+          echo "Previous tag: $PREV_TAG"
+          CHANGELOG=$(git log ${PREV_TAG}..HEAD --pretty=format:"- %s")
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create Git Tag
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git tag -a v${{ env.version }} -m "Release v${{ env.version }}"
+          git push origin v${{ env.version }}
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          tag_name: v${{ env.version }}
+          release_name: "Release v${{ env.version }}"
+          body: |
+            ## Changelog
+            ${{ steps.generate_changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: compose_permissions/build/outputs/aar/compose-permissions-${{ env.version }}-release.aar
+          asset_name: compose-permissions-${{ env.version }}.aar
+          asset_content_type: application/octet-stream
