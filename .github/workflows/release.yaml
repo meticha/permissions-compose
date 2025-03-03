@@ -1,9 +1,11 @@
 name: Release
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - main
+
 
 env:
   VERSION_NAME: 0.0.1+2  # Update this value for each release
