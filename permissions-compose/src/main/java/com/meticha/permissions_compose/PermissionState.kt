@@ -29,7 +29,7 @@ fun rememberAppPermissionState(permissions: List<AppPermission>): PermissionStat
     val context = LocalContext.current
     val activity = requireNotNull(LocalActivity.current)
 
-    val permissionState = remember { PermissionState(permissions) }
+    val permissionState = remember(permissions) { PermissionState(permissions) }
 
     // Provide context access through composable scope
     permissionState.contextRef = WeakReference(context)
@@ -155,10 +155,10 @@ class PermissionState(
     lateinit var contextRef: WeakReference<Context>
 
     // All permissions that need to be handled
-    internal val allPermissions = mutableStateListOf<AppPermission>()
+    private val allPermissions = mutableStateListOf<AppPermission>()
 
     // Permissions waiting to be processed
-    internal var pendingPermissions = mutableStateListOf<AppPermission>()
+    private var pendingPermissions = mutableStateListOf<AppPermission>()
 
     // Currently processing permission
     internal var currentPermission by mutableStateOf<AppPermission?>(null)
@@ -169,7 +169,7 @@ class PermissionState(
     internal var resumedFromSettings by mutableStateOf(false)
 
     // Permission states
-    var isRequiredPermissionGranted by mutableStateOf(false)
+    private var isRequiredPermissionGranted by mutableStateOf(false)
 
     // Permission request launcher
     internal var launcher: ManagedActivityResultLauncher<String, Boolean>? = null
@@ -182,7 +182,7 @@ class PermissionState(
     /**
      * Checks if all required permissions are actually granted
      */
-    fun allRequiredGranted(): Boolean {
+    private fun allRequiredGranted(): Boolean {
         isRequiredPermissionGranted = allPermissions
             .filter { it.isRequired }
             .all { isGranted(it.permission) }
@@ -192,7 +192,7 @@ class PermissionState(
     /**
      * Checks if a specific permission is granted
      */
-    fun isGranted(permission: String): Boolean {
+    private fun isGranted(permission: String): Boolean {
         val context = requireNotNull(contextRef.get())
         return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
     }
@@ -210,9 +210,6 @@ class PermissionState(
                     launcher?.launch(permission.permission)
                 }
             }
-        } else {
-            /// Added this for recomposition
-            allRequiredGranted()
         }
     }
 
