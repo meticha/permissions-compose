@@ -53,7 +53,11 @@ fun rememberAppPermissionState(permissions: List<AppPermission>): PermissionStat
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         when {
-            isGranted -> permissionState.next()
+            isGranted -> {
+                permissionState.next()
+                permissionState.allRequiredGranted()
+            }
+
             else -> handlePermissionDenial(permissionState, activity)
         }
     }
@@ -182,7 +186,7 @@ class PermissionState(
     /**
      * Checks if all required permissions are actually granted
      */
-    private fun allRequiredGranted(): Boolean {
+    internal fun allRequiredGranted(): Boolean {
         isRequiredPermissionGranted = allPermissions
             .filter { it.isRequired }
             .all { isGranted(it.permission) }
