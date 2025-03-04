@@ -193,7 +193,7 @@ class PermissionState(
      * Checks if a specific permission is granted
      */
     fun isGranted(permission: String): Boolean {
-        val context = contextRef.get()!!
+        val context = requireNotNull(contextRef.get())
         return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
     }
 

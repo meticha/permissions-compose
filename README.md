@@ -115,6 +115,7 @@ fun PermissionScreen() {
                 description = "Contact access is needed to show the contacts in the App. Please grant this permission",
                 isRequired = true
             )
+            // ... Add your permissions here that you want to request
         )
     )
 
