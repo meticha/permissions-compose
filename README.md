@@ -12,7 +12,7 @@ lifecycle-aware permission flows.
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.meticha/permissions_compose)](https://central.sonatype.com/artifact/com.meticha/permissions_compose) ![Static Badge](https://img.shields.io/badge/minSdk-21-blue?link=https%3A%2F%2Fgithub.com%2Fmeticha%2Fpermissions-compose%2Fblob%2Fmain%2Fpermissions-compose%2Fbuild.gradle.kts%23L13)
 
-## 📦Features
+## 📦 Features
 
 - **Composable Permission State**: Easily manage permissions with a stateful, composable API.
 - **Manifest Check**: Automatically verifies that all required permissions are declared in your
@@ -22,7 +22,7 @@ lifecycle-aware permission flows.
   resuming from app settings).
 - **Flexible Permission Flow**: Seamlessly handles both required and optional permissions.
 
-## ⬇️Installation
+## ⬇️ Installation
 
 You can follow the implementation approach used in the App module. Alternatively, you can find a
 detailed explanation below.
