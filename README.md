@@ -12,7 +12,7 @@ lifecycle-aware permission flows.
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.meticha/permissions_compose)](https://central.sonatype.com/artifact/com.meticha/permissions_compose) ![Static Badge](https://img.shields.io/badge/minSdk-21-blue?link=https%3A%2F%2Fgithub.com%2Fmeticha%2Fpermissions-compose%2Fblob%2Fmain%2Fpermissions-compose%2Fbuild.gradle.kts%23L13)
 
-## Features
+## 📦Features
 
 - **Composable Permission State**: Easily manage permissions with a stateful, composable API.
 - **Manifest Check**: Automatically verifies that all required permissions are declared in your
@@ -22,12 +22,12 @@ lifecycle-aware permission flows.
   resuming from app settings).
 - **Flexible Permission Flow**: Seamlessly handles both required and optional permissions.
 
-## Installation
+## ⬇️Installation
 
 You can follow the implementation approach used in the App module. Alternatively, you can find a
 detailed explanation below.
 
-### Dependencies
+### 🏴Dependencies
 
 The library is now available on MavenCentral!!! Add the dependencies to your `libs.versions.toml`
 
@@ -51,7 +51,7 @@ dependencies {
  implementation(libs.permissions.compose)
 ```
 
-## Usage:
+## 💬Usage:
 
 ### 0. Add Permissions inside your `AndroidManifest.xml`
 
@@ -146,7 +146,7 @@ fun PermissionScreen() {
 }
 ```
 
-## How It Works:
+## ❓How It Works:
 
 ### PermissionState
 
@@ -158,19 +158,19 @@ The core of the library is the PermissionState class, which:
 - Progresses through the permission request queue using functions such as requestPermission() and
   next().
 
-## Lifecycle Integration
+## ♻️Lifecycle Integration
 
 The `PermissionLifeCycleCheckEffect` composable observes lifecycle events (e.g., `ON_RESUME`). If
 the app resumes from settings, it automatically re-triggers the permission request flow.
 
-## Manifest Verification
+## ✅Manifest Verification
 
 Before launching a permission request, the library verifies that each permission is declared in your
 `AndroidManifest.xml`. If a permission is missing, a `PermissionNotAddedException` is thrown to
 alert
 you.
 
-## Customization
+## ⚙️Customization
 
 You can customize the permission dialogs globally via the `PermissionManagerConfig`:
 
@@ -185,13 +185,21 @@ tailor the user experience to match your app's design guidelines.
 
 ![permissions.gif](permissions.gif)
 
-# Contributing
+# 🤝Contributing
 
 Contributions are welcome! If you have suggestions, improvements, or bug fixes, please open an issue
-or submit a pull request. Make sure to follow the existing code style and include tests where
-applicable.
+or submit a pull request. 
 
-# License
+1. Fork the repository.
+2. Create a new branch (feature-branch)
+3. Commit your changes.
+4. Push to the branch and submit a pull request.
+
+# 📬Contact
+
+For issues or suggestions, open an issue or reach out at cavin@meticha.com.
+
+# 📜License
 
 Distributed under
 the [Apache Software License, Version 2.0.](https://www.apache.org/licenses/LICENSE-2.0)
