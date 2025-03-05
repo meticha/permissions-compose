@@ -186,7 +186,7 @@ class PermissionState(
     /**
      * Checks if all required permissions are actually granted
      */
-    internal fun allRequiredGranted(): Boolean {
+    fun allRequiredGranted(): Boolean {
         isRequiredPermissionGranted = allPermissions
             .filter { it.isRequired }
             .all { isGranted(it.permission) }
@@ -196,7 +196,7 @@ class PermissionState(
     /**
      * Checks if a specific permission is granted
      */
-    private fun isGranted(permission: String): Boolean {
+    fun isGranted(permission: String): Boolean {
         val context = requireNotNull(contextRef.get())
         return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
     }
