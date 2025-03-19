@@ -1,6 +1,6 @@
-## Compose Permission Manager
+## Permission Manager for Compose
 
-![jetpack-compose-permission-banner.png](jetpack-compose-permission-banner.png)
+![jetpack-compose-permission-banner.png](banner.png)
 
 A lightweight Android library that simplifies runtime permission management in Jetpack Compose
 applications. This library provides a composable API to request, check, and handle App permissions
