@@ -94,7 +94,8 @@ fun rememberAppPermissionState(permissions: List<AppPermission>): PermissionStat
                         {},
                         {
                             permissionState.showSettingsPopUp = false
-                            permissionState.requestPermission()
+                            permissionState.resumedFromSettings = true
+                            openAppSettings(context)
                         }
                     )
 
