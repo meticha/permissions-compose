@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  VERSION_NAME: 1.0.1  # Update this value for each release
+  VERSION_NAME: 1.0.2  # Update this value for each release
 
 jobs:
   release:
@@ -40,14 +40,15 @@ jobs:
         run: |
           # Create a minimal gradle.properties with only necessary properties for CI
           echo "android.useAndroidX=true" > gradle.properties
+          echo "android.enableJetifier=true" >> gradle.properties
+          echo "org.gradle.jvmargs=-Xmx2048m -XX:MaxMetaspaceSize=512m" >> gradle.properties
           echo "VERSION_NAME=${{ env.VERSION_NAME }}" >> gradle.properties
-
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         if: steps.check_version.outputs.version_exists == 'false'
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
 
       - name: Build Compose Permissions Library
         if: steps.check_version.outputs.version_exists == 'false'
