@@ -16,10 +16,11 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.TOKEN }}
           persist-credentials: true
+          fetch-depth: 0
 
       - name: Setup gradle.properties
         run: |
@@ -66,26 +67,19 @@ jobs:
           git tag -a v${{ env.version }} -m "Release v${{ env.version }}"
           git push origin v${{ env.version }}
 
+      - name: Prepare Release Artifact
+        run: cp permissions-compose/build/outputs/aar/permissions-compose-release.aar permissions-compose-${{ env.version }}.aar
+
       - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env.version }}
-          release_name: "Release v${{ env.version }}"
+          name: "Release v${{ env.version }}"
           body: |
             ## Changelog
             ${{ steps.generate_changelog.outputs.changelog }}
           draft: false
           prerelease: false
-
-      - name: Upload Release Artifact
-        uses: actions/upload-release-asset@v1
+          files: permissions-compose-${{ env.version }}.aar
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: permissions-compose/build/outputs/aar/permissions-compose-release.aar
-          asset_name: permissions-compose-${{ env.version }}.aar
-          asset_content_type: application/octet-stream
