@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("com.vanniktech.maven.publish") version "0.35.0"
+    id("com.vanniktech.maven.publish") version "0.32.0"
 }
 
 android {
@@ -53,5 +53,40 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
+
+    coordinates("com.meticha", "permissions_compose", "1.0.1")
+
+    pom {
+        name = "permissions_compose"
+        description =
+            "A lightweight Android library that simplifies runtime permission management in Jetpack Compose applications."
+        inceptionYear = "2025"
+        version = "1.0.1"
+        url = "https://github.com/meticha/permissions-compose.git"
+        licenses {
+            license {
+                name = "The Apache License, Version 2.0"
+                url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+        }
+        developers {
+            developer {
+                id = "Cavin"
+                name = "Cavin Macwan"
+                url = "https://github.com/cavin-macwan/"
+            }
+        }
+        scm {
+            url = "https://github.com/meticha/permissions-compose.git"
+            connection = "scm:git:git://github.com/meticha/permissions-compose.git"
+            developerConnection = "scm:git:ssh://git@github.com/meticha/permissions-compose.git"
+        }
+    }
 }
 
