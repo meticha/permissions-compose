@@ -2,15 +2,16 @@ name: Release
 
 on:
   pull_request:
-    types: [closed]
+    types: [ closed ]
     branches:
       - main
 
 env:
-  VERSION_NAME: 0.1.0  # Update this value for each release
+  VERSION_NAME: 1.0.0  # Update this value for each release
 
 jobs:
   release:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -19,24 +20,41 @@ jobs:
         with:
           token: ${{ secrets.TOKEN }}
           persist-credentials: true
-          fetch-depth: 0
+          fetch-depth: 0 # Fetch all history for all tags and branches
+
+      - name: Check if version tag exists
+        id: check_version
+        run: |
+          GIT_TAG="v${{ env.VERSION_NAME }}"
+          echo "Checking for existing tag: $GIT_TAG"
+          if git rev-parse "$GIT_TAG" >/dev/null 2>&1; then
+            echo "Tag $GIT_TAG already exists. Skipping release."
+            echo "version_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Tag $GIT_TAG does not exist. Proceeding with release."
+            echo "version_exists=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Setup gradle.properties
+        if: steps.check_version.outputs.version_exists == 'false'
         run: |
           # Create a minimal gradle.properties with only necessary properties for CI
           echo "android.useAndroidX=true" > gradle.properties
           echo "VERSION_NAME=${{ env.VERSION_NAME }}" >> gradle.properties
 
       - name: Set up JDK 17
+        if: steps.check_version.outputs.version_exists == 'false'
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
       - name: Build Compose Permissions Library
+        if: steps.check_version.outputs.version_exists == 'false'
         run: ./gradlew :permissions-compose:assembleRelease -Dandroid.useAndroidX=true
 
       - name: Extract Version
+        if: steps.check_version.outputs.version_exists == 'false'
         id: get_version
         run: |
           VERSION=$(grep "^VERSION_NAME=" gradle.properties | cut -d '=' -f2)
@@ -45,6 +63,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Generate Changelog
+        if: steps.check_version.outputs.version_exists == 'false'
         id: generate_changelog
         run: |
           # Get the previous tag; if none exists, use the initial commit.
@@ -60,25 +79,35 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create Git Tag
+        if: steps.check_version.outputs.version_exists == 'false'
         run: |
           git config --global user.email "cavinmacwan1@gmail.com"
           git config --global user.name "Cavin"
           git tag -a v${{ env.version }} -m "Release v${{ env.version }}"
           git push origin v${{ env.version }}
 
-      - name: Prepare Release Artifact
-        run: cp permissions-compose/build/outputs/aar/permissions-compose-release.aar permissions-compose-${{ env.version }}.aar
-
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        if: steps.check_version.outputs.version_exists == 'false'
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           tag_name: v${{ env.version }}
-          name: "Release v${{ env.version }}"
+          release_name: "Release v${{ env.version }}"
           body: |
             ## Changelog
             ${{ steps.generate_changelog.outputs.changelog }}
           draft: false
           prerelease: false
-          files: permissions-compose-${{ env.version }}.aar
+
+      - name: Upload Release Artifact
+        if: steps.check_version.outputs.version_exists == 'false'
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: permissions-compose/build/outputs/aar/permissions-compose-release.aar
+          asset_name: permissions-compose-${{ env.version }}.aar
+          asset_content_type: application/octet-stream
