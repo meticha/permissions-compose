@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  VERSION_NAME: 1.0.2  # Update this value for each release
+  VERSION_NAME: 1.0.3  # Update this value for each release
 
 jobs:
   release:
