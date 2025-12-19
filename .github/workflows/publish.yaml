@@ -14,6 +14,14 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
+      - name: Setup gradle.properties
+        if: steps.check_version.outputs.version_exists == 'false'
+        run: |
+          # Create a minimal gradle.properties with only necessary properties for CI
+          echo "android.useAndroidX=true" > gradle.properties
+          echo "android.enableJetifier=true" >> gradle.properties
+          echo "org.gradle.jvmargs=-Xmx2048m -XX:MaxMetaspaceSize=512m" >> gradle.properties
+          echo "VERSION_NAME=${{ env.VERSION_NAME }}" >> gradle.properties
       - name: Publish to MavenCentral
         run: ./gradlew publishToMavenCentral --no-configuration-cache
         env:
