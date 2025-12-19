@@ -15,7 +15,6 @@ jobs:
           distribution: 'zulu'
           java-version: 21
       - name: Setup gradle.properties
-        if: steps.check_version.outputs.version_exists == 'false'
         run: |
           # Create a minimal gradle.properties with only necessary properties for CI
           echo "android.useAndroidX=true" > gradle.properties
