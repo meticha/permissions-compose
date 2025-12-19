@@ -59,14 +59,14 @@ mavenPublishing {
     publishToMavenCentral()
     signAllPublications()
 
-    coordinates("com.meticha", "permissions_compose", "1.0.4")
+    coordinates("com.meticha", "permissions_compose", "1.0.5")
 
     pom {
         name = "permissions_compose"
         description =
             "A lightweight Android library that simplifies runtime permission management in Jetpack Compose applications."
         inceptionYear = "2025"
-        version = "1.0.4"
+        version = "1.0.5"
         url = "https://github.com/meticha/permissions-compose.git"
         licenses {
             license {
